@@ -26,4 +26,18 @@ export class UserService {
         //return this.userRepo.remove()
     }
     
+    hash_password(plainPassword: string){
+        const hash = bcrypt.hashSync(plainPassword,19)
+        return hash
+    }
+
+    comparePassword(plainPassword:string, hashPassword:string){
+        const valid = bcrypt.compareSync(plainPassword,hashPassword)
+        return valid
+    }
+
+    register(createUser: any){
+        createUser.password = this.hash_password(createUser.password)
+        return this.userRepo.save(createUser)
+    }
 }

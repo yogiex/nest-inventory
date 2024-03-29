@@ -1,6 +1,8 @@
-FROM node:12.19.9-alpine3.9 as delopment
-WORKDIR /usr/src/app
+FROM node:20.12.0-alpine as delopment
+WORKDIR /src
 COPY package*.json ./
-RUN npm install glob rimraf
+RUN npm install
 COPY . .
-RUN npm run start
+RUN npm run build
+EXPOSE 3000
+CMD ["npm","run","start:prod"]
