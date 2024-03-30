@@ -20,4 +20,7 @@ export class UserEntity {
 
     @CreateDateColumn()
     created_at: Date;
+
+    @Column()
+    role: string;
 }
