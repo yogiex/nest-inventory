@@ -45,6 +45,69 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Install package untuk database postgres
+```bash
+npm i @nestjs/typeorm typeorm pg @nestjs/config
+```
+## Konfigurasi app.module.ts database
+```typescript
+TypeOrmModule.forRoot({
+              type: 'postgres',
+              host: process.env.DATABASE_HOST,
+              port: parseInt(process.env.DATABASE_PORT),
+              username: process.env.DATABASE_USER,
+              password: process.env.DATABASE_PASSWORD,
+              database: process.env.DATABASE_DB,
+              entities: [
+                User
+              ],
+              synchronize: true,
+            })
+```
+
+## Install package enkripsi
+```bash
+npm i bcrypt
+```
+```bash
+npm i -D @types/bcrypt
+```
+## Install package untuk dokumentasi Rest API
+```bash
+npm install --save @nestjs/swagger swagger-ui-express
+```
+
+## Installasi package untuk jwt
+```bash
+npm i @nestjs/passport @nestjs/jwt passport passport-jwt
+```
+```bash
+npm i -D @types/passport-jwt
+```
+
+## Generate JWT KEY
+1. Buka terminal atau command prompt
+2. Copy paste command yang ada dibawah ini untuk generate key dari library crypto
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+## Generate resource
+1. Generate module
+```bash
+nest g mo auth
+```
+
+2. Generate service
+```bash
+nest g se auth
+```
+
+3. Generate controller
+```bash
+nest g c auth
+```
+
 ## Test
 
 ```bash
