@@ -6,25 +6,7 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+  <p align="center">
 
 ## Installation
 
@@ -49,6 +31,7 @@ $ npm run start:prod
 ```bash
 npm i @nestjs/typeorm typeorm pg @nestjs/config
 ```
+
 ## Konfigurasi app.module.ts database
 ```typescript
 TypeOrmModule.forRoot({
@@ -69,9 +52,11 @@ TypeOrmModule.forRoot({
 ```bash
 npm i bcrypt
 ```
+
 ```bash
 npm i -D @types/bcrypt
 ```
+
 ## Install package untuk dokumentasi Rest API
 ```bash
 npm install --save @nestjs/swagger swagger-ui-express
@@ -81,6 +66,7 @@ npm install --save @nestjs/swagger swagger-ui-express
 ```bash
 npm i @nestjs/passport @nestjs/jwt passport passport-jwt
 ```
+
 ```bash
 npm i -D @types/passport-jwt
 ```
@@ -106,6 +92,36 @@ nest g se auth
 3. Generate controller
 ```bash
 nest g c auth
+```
+## File upload
+```bash
+npm i -D @types/multer
+```
+
+## Add logging
+```bash
+npm install winston
+```
+1. lalu buat file logger.ts pada root src
+```typescript
+import * as winston from 'winston'
+const logger = winston.createLogger({
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json()
+    ),
+    transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({filename: 'logs/app.log'})
+    ]
+})
+
+export default logger;
+```
+
+2. Import pada file controller lalu letakkan pada setiap controller
+```typescript
+import Logger from './logger'
 ```
 
 ## Test
