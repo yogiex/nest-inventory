@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 
 @Module({
     imports: [
+        UserModule,
         ConfigModule.forRoot(),
         UserModule,
         JwtModule.register({

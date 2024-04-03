@@ -5,6 +5,7 @@ services:
   db:
     image: postgres:9.6
     restart: always
+    container_name: pg_container
     ports:
       - "5432:5432"
     environment:
@@ -17,17 +18,17 @@ services:
     restart: always
     ports:
       - 8080:8080   
-  app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: nestjs_app_inventory
-    ports:
-     - "3000:3000"   
-    volumes:
-     - /logs/:/src/log
-    depends_on:
-     - db
+  #app:
+  #  build: 
+  #    context: .
+  #    dockerfile: Dockerfile
+  #  container_name: nestjs_app_inventory
+  #  ports:
+  #   - "3000:3000"   
+  #  volumes:
+  #   - /logs/:/src/log
+  #  depends_on:
+  #   - db
   #filebeat:
   # build:
   #  context: ./filebeat
