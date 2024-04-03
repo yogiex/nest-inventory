@@ -55,7 +55,7 @@ export class UserService {
         })
         if(userExist){
             throw new BadRequestException("user already exist")
-            logger.warning('user with this email already exist, please use another email')
+            logger.warn('user with this email already exist, please use another email')
         }else {
             createUser.password = this.hash_password(createUser.password)
             return this.userRepo.save(createUser)

@@ -1,9 +1,9 @@
-import {PrimaryColumn, Column,CreateDateColumn, Entity, ManyToMany} from 'typeorm'
+import {PrimaryColumn, Column,CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn} from 'typeorm'
 import { BarangEntity } from './barang-entity';
 
 @Entity('Monitors')
 export class MonitorEntity{
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
@@ -27,7 +27,7 @@ export class MonitorEntity{
     @Column()
     refresh_rate: string;
     
-    @ManyToMany(() => BarangEntity)
-    inventory: BarangEntity[]
+    @ManyToMany(() => BarangEntity, barang => barang.monitor)
+    inventory: BarangEntity
     
 }

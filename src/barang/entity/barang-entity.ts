@@ -1,9 +1,10 @@
-import {PrimaryColumn, Column,CreateDateColumn, Entity, ManyToMany} from 'typeorm'
+import {Column,CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, OneToMany} from 'typeorm'
 import { MonitorEntity } from './monitor-entity';
+import { KomputerEntity } from './komputer-entity';
 
 @Entity('Barang')
 export class BarangEntity{
-    @PrimaryColumn('uuid')
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
     @Column()
@@ -17,5 +18,11 @@ export class BarangEntity{
 
     @Column({type: 'date'})
     barang_keluar: Date;
+
+    @OneToMany(() => MonitorEntity, monitor => monitor.id)
+    monitor: MonitorEntity[]
+
+    @OneToMany(() => KomputerEntity, komputer => komputer.id)
+    komputer: KomputerEntity[]
 
 }

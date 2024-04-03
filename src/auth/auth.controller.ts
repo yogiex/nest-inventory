@@ -28,17 +28,17 @@ export class AuthController {
     @HttpCode(201)
     async register(@Body() registerUser: any){
         logger.info('register post get request')
-        const user = await this.userService.findByEmail(registerUser.email)
-        if(user) {
-            logger.warn(`user with this email ${registerUser.email} already registered`)
-            throw new BadRequestException("user with this email already exist")
-        } else {
-            logger.info({
-                msg: "user successful register",
-                data: registerUser,
-            })
-            return this.userService.register(registerUser)
-        }
-        
+        // const user = await this.userService.findByEmail(registerUser.email)
+        // if(user) {
+        //     logger.warn(`user with this email ${registerUser.email} already registered`)
+        //     throw new BadRequestException("user with this email already exist")
+        // } else {
+        //     logger.info({
+        //         msg: "user successful register",
+        //         data: registerUser,
+        //     })
+        //     return this.userService.register(registerUser)
+        // }
+        return this.userService.register(registerUser)
     }
 }

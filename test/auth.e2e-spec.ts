@@ -14,7 +14,8 @@ describe('AuthController (e2e)', () => {
     name: 'priyagung elza yogitama',
     password: 'admin@123',
     avatar: 'localhost:3000',
-    address: 'solo'
+    address: 'solo',
+    role:'admin'
   }
   const dataLogin = {
     email: 'yogi@email.com',
@@ -39,16 +40,31 @@ describe('AuthController (e2e)', () => {
   // await app.init()
   // });
 
-  it('/auth/register (POST)', () => {
+  it('/auth/register (POST) Successful', () => {
     return request(api)
       .post('/auth/register')
       .send(dataRegister)
-      .expect(200)
+      .expect(body => {
+        
+      })
+      .expect(201)
+  });
+  it('/auth/register (POST) Email already exist', () => {
+    return request(api)
+      .post('/auth/register')
+      .send(dataRegister)
+      .expect(body => {
+        expect(body.statusCode).toEqual(400)
+      })
+      .expect(400)
   });
   it('/auth/login (POST)' , () => {
     return request(api)
         .post('/auth/login')
         .send(dataLogin)
+        .expect(({body}) => {
+          expect(body.token).toBeDefined()
+        })
         .expect(200)
         
   })
