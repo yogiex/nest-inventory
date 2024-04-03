@@ -1,6 +1,7 @@
 import { ApiProperty, PickType } from "@nestjs/swagger";
 
 export class RegisterDTO {
+    id?: string;
     @ApiProperty()
     email:string;
     @ApiProperty()
@@ -11,4 +12,6 @@ export class RegisterDTO {
     role:string;
     @ApiProperty()
     address:string;
+    @ApiProperty()
+    avatar:string;
 }

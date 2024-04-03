@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entity/user-entity';
 import * as bcrypt from 'bcrypt';
 import { RegisterDTO } from 'src/auth/dto/register-dto';
+import logger from 'src/logger';
 @Injectable()
 export class UserService {
     constructor(
@@ -28,12 +29,16 @@ export class UserService {
         }})
     }
     async deleteUser(id:string){
-        //let user =  this.userRepo.findOne(id)
-        //return this.userRepo.remove()
+        let user =  await this.userRepo.findOne({
+            where: {
+                id:id
+            }
+        })
+        return this.userRepo.remove(user)
     }
     
     hash_password(plainPassword: string){
-        const hash = bcrypt.hashSync(plainPassword,19)
+        const hash = bcrypt.hashSync(plainPassword,10)
         return hash
     }
 
@@ -42,8 +47,19 @@ export class UserService {
         return valid
     }
 
-    async register(createUser: any){
-        createUser.password = this.hash_password(createUser.password)
-        return this.userRepo.create(createUser)
+    async register(createUser: RegisterDTO){
+        const userExist = await this.userRepo.findOne({
+            where: {
+                email:createUser.email
+            }
+        })
+        if(userExist){
+            throw new BadRequestException("user already exist")
+            logger.warning('user with this email already exist, please use another email')
+        }else {
+            createUser.password = this.hash_password(createUser.password)
+            return this.userRepo.save(createUser)
+        }
+        
     }
 }

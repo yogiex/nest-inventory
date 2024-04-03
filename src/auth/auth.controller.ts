@@ -1,4 +1,4 @@
-import { Controller, HttpCode, Body ,Post } from '@nestjs/common';
+import { Controller, HttpCode, Body ,Post, BadRequestException } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AppService } from 'src/app.service';
 import { UserService } from 'src/user/user.service';
@@ -26,9 +26,19 @@ export class AuthController {
     //Dev only
     @Post('register')
     @HttpCode(201)
-    async register(@Body() registerUser: RegisterDTO){
+    async register(@Body() registerUser: any){
         logger.info('register post get request')
-        // return {msg:"hello"}
-        return this.userService.register(registerUser)
+        const user = await this.userService.findByEmail(registerUser.email)
+        if(user) {
+            logger.warn(`user with this email ${registerUser.email} already registered`)
+            throw new BadRequestException("user with this email already exist")
+        } else {
+            logger.info({
+                msg: "user successful register",
+                data: registerUser,
+            })
+            return this.userService.register(registerUser)
+        }
+        
     }
 }
