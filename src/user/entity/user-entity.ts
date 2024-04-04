@@ -1,4 +1,4 @@
-import {PrimaryColumn, Column,CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm'
+import {PrimaryColumn, Column,CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToMany} from 'typeorm'
 
 @Entity()
 export class UserEntity {
@@ -27,4 +27,5 @@ export class UserEntity {
 
     @Column()
     role: string;
+
 }

@@ -8,13 +8,11 @@ import { AuthController } from './auth/auth.controller';
 import { ConfigModule } from '@nestjs/config';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
-import { BarangModule } from './barang/barang.module';
-import { BarangEntity } from './barang/entity/barang-entity';
-import { KomputerEntity } from './barang/entity/komputer-entity';
-import { MonitorEntity } from './barang/entity/monitor-entity';
+
+
 
 @Module({
-  imports: [UserModule,ConfigModule.forRoot(),
+  imports: [ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       name:'default',
       type: 'postgres',
@@ -24,16 +22,12 @@ import { MonitorEntity } from './barang/entity/monitor-entity';
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_DB,
       entities: [
-        UserEntity,
-        KomputerEntity,
-        MonitorEntity,
-        BarangEntity,
+        UserEntity,   
       ],
       synchronize: true,
     }),
     AuthModule,
     UserModule,
-    BarangModule
   ],
   controllers: [AppController],
   providers: [AppService],
