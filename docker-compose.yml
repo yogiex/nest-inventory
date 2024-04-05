@@ -12,30 +12,47 @@ services:
       POSTGRES_USER: ${DATABASE_USER}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_DB}
+    networks:
+     - nestjs
 
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080   
-  #app:
-  #  build: 
-  #    context: .
-  #    dockerfile: Dockerfile
-  #  container_name: nestjs_app_inventory
-  #  ports:
-  #   - "3000:3000"   
-  #  volumes:
-  #   - /logs/:/src/log
-  #  depends_on:
-  #   - db
-  #filebeat:
-  # build:
-  #  context: ./filebeat
-  #  dockerfile: Dockerfile
-  # container_name: filebeat
-  # command: filebeat -e -strict.perms=false
+    networks:
+     - nestjs
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_app_inventory
+    #deploy:
+    # replicas: 2
+    ports:
+     - "3000:3000"   
+    volumes:
+     - /logs/:/src/log
+    depends_on:
+     - db
+    networks:
+     - nestjs
+
+  #lb:
+  # image: nginx:alpine
+  # ports:
+  #  - "80:80"
   # volumes:
-  #  - ./nestjs-log/logs:/src/log
+  #  - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
+  #  - "./nginx/logs/:/var/log/nginx"
+  # networks:
+  #  - nestjs
+  # depends_on:
+  #  - app
+
 volumes:
   db:
+
+networks:
+  nestjs:
+   
