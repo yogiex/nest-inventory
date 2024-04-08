@@ -2,12 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { createConnection, getConnection } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../src/user/entity/user-entity';
-import { DatabaseConnectionServiceTesting } from './conn.testing';
+import { UserEntity } from '../src/user/entity/user.entity';
+import AppDataSource from './conn.testing'
+
 describe('AuthController (e2e)', () => {
-  // let app: INestApplication;
+  let app: INestApplication;
   let api = 'http://localhost:3000'
   const dataRegister = {
     email: 'yogi@email.com',
@@ -22,23 +23,11 @@ describe('AuthController (e2e)', () => {
     password: 'admin@123'
   }
 
-  // beforeAll(async () => {
-  //   const moduleRef:TestingModule = await Test.createTestingModule({
-  //       imports: [TypeOrmModule.forRootAsync({
-  //         useClass: DatabaseConnectionServiceTesting
-  //       })]
-  //   }).compile()
-
-  // app = moduleRef.createNestApplication();
-  // await getConnection('default')
-  //       .getRepository(UserEntity)
-  //       .createQueryBuilder()
-  //       .delete()
-  //       .from(UserEntity)
-  //       .execute()
-
-  // await app.init()
-  // });
+  beforeAll(async () => {
+    AppDataSource.AppDataSource.dropDatabase()
+  
+    
+  });
 
   it('/auth/register (POST) Successful', () => {
     return request(api)

@@ -1,10 +1,10 @@
 import {Column,CreateDateColumn, Entity, ManyToMany, PrimaryGeneratedColumn, OneToMany} from 'typeorm'
-import { MonitorEntity } from './monitor-entity';
-import { KomputerEntity } from './komputer-entity';
+import { MonitorEntity } from './monitor.entity';
+import { KomputerEntity } from './komputer.entity';
 
 @Entity('Barang')
 export class BarangEntity{
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column()

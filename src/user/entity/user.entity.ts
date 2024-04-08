@@ -1,9 +1,10 @@
-import {PrimaryColumn, Column,CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm'
+import { RuanganEntity } from '../../ruangan/entity/ruangan.entity';
+import {PrimaryColumn, Column,CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToMany} from 'typeorm'
 
 @Entity()
 export class UserEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn()
+    id: number;
 
     @Column()
     name: string;
@@ -27,4 +28,7 @@ export class UserEntity {
 
     @Column()
     role: string;
+
+    @OneToMany(() => RuanganEntity , ruangan => ruangan.id)
+    setting_ruang: RuanganEntity[]
 }

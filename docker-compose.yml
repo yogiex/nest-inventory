@@ -22,21 +22,20 @@ services:
       - 8080:8080   
     networks:
      - nestjs
-  app:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: nestjs_app_inventory
+  #app:
+    #build: 
+    #  context: .
+    #  dockerfile: Dockerfile
     #deploy:
-    # replicas: 2
-    ports:
-     - "3000:3000"   
-    volumes:
-     - /logs/:/src/log
-    depends_on:
-     - db
-    networks:
-     - nestjs
+    # replicas: 5
+    #ports:
+    # - "3000:3000"   
+   # volumes:
+   #  - /logs/:/src/log
+   # depends_on:
+   #  - db
+   # networks:
+   #  - nestjs
 
   #lb:
   # image: nginx:alpine
@@ -49,10 +48,15 @@ services:
   #  - nestjs
   # depends_on:
   #  - app
+  #filebeat:
+  # image: docker.elastic.co/beats/filebeat:${ELASTIC_VERSION}
+  # volumes:
+  #  - './filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml'
 
 volumes:
   db:
 
 networks:
   nestjs:
+   driver: bridge 
    

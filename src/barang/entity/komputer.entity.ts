@@ -3,7 +3,7 @@ import { BarangEntity } from './barang-entity';
 
 @Entity('Computers')
 export class KomputerEntity{
-    @PrimaryGeneratedColumn('uuid')
+    @PrimaryGeneratedColumn()
     id: string;
 
     @Column()
@@ -18,8 +18,8 @@ export class KomputerEntity{
     @Column()
     vga: string;
 
-    @ManyToOne(() => BarangEntity, barang => barang.komputer)
-    inventory: BarangEntity
+    @ManyToOne(() => BarangEntity, barang => barang.komputer, {nullable: true})
+    inventory: BarangEntity | null
 
     
 }

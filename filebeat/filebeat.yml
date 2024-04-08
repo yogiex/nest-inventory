@@ -1,0 +1,15 @@
+filebeat.inputs:
+- type: filestream
+  id: nestjsapp-filestream-id
+  paths:
+    - /src/logs/*.log
+- type: filestream
+  id: nginx-filestream-id
+  paths:
+    - "../nginx/*.log"
+  fields:
+    apache: true
+  fields_under_root: true
+filebeat.output:
+ hosts: ["localhost:9200"]
+ index: "nestjs-app"
