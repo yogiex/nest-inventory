@@ -4,7 +4,7 @@ import { BarangEntity } from './barang-entity';
 @Entity('Computers')
 export class KomputerEntity{
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column()
     brand: string;

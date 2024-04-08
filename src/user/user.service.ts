@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entity/user.entity';
@@ -15,20 +15,44 @@ export class UserService {
         return this.userRepo.find()
     }
 
-    findOne(id: string){
-        return this.userRepo.findBy({id:id})
+    async findOne(id: number){
+        const user = await this.userRepo.findBy({id:id})
+        try {
+            if(user) return user
+        } catch (error) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'User Not Found'
+            })
+        }
     }
 
-    findByUsername(username:string){
-        return this.userRepo.findBy({name:username})
+    async findByUsername(username:string){
+        const user = await this.userRepo.findBy({name:username})
+        try {
+            if(user) return user
+        } catch (error) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                error:'User with this username not found'
+            })
+        }
     }
 
     async findByEmail(email:string){
-        return this.userRepo.findOne({where: {
+        const user = await this.userRepo.findOne({where: {
             email:email
         }})
+        try {
+            if(user) return user
+        } catch (error) {
+            throw new NotFoundException({
+                status: HttpStatus.NOT_FOUND,
+                error: 'User with this email not found'
+            })
+        }
     }
-    async deleteUser(id:string){
+    async deleteUser(id:number){
         let user =  await this.userRepo.findOne({
             where: {
                 id:id

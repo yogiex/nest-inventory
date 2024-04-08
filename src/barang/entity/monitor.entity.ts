@@ -4,7 +4,7 @@ import { BarangEntity } from './barang-entity';
 @Entity('Monitors')
 export class MonitorEntity{
     @PrimaryGeneratedColumn()
-    id: string;
+    id: number;
 
     @Column()
     nama_barang: string;

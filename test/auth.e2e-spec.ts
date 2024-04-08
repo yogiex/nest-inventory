@@ -2,10 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
-import { DataSource } from 'typeorm';
+import { DataSource, Repository, getConnection } from 'typeorm';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../src/user/entity/user.entity';
 import AppDataSource from './conn.testing'
+import { RuanganEntity } from '../src/ruangan/entity/ruangan.entity';
 
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
@@ -24,7 +25,19 @@ describe('AuthController (e2e)', () => {
   }
 
   beforeAll(async () => {
-    AppDataSource.AppDataSource.dropDatabase()
+    const dataSource = new DataSource({
+      type: "postgres",
+        host: 'localhost',
+        port: 5432,
+        username: 'yogi',
+        password: 'password_project',
+        database: 'project_inventory',
+        entities: [UserEntity,RuanganEntity],
+        synchronize: true
+    })
+    await dataSource.initialize()
+    await dataSource.createQueryBuilder().delete().from(UserEntity).execute()
+    
   
     
   });
