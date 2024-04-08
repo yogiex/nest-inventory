@@ -18,8 +18,14 @@ export class AuthController {
     @HttpCode(200)
     async login(@Body() auth: LoginDTO){
         let user = await this.authService.checkUser(auth.email, auth.password)
-        return this.authService.generateToken({id:user.id})
-        logger.info('login post get request')
+        const token = this.authService.generateToken({id:user.id})
+        logger.info({
+            msg: 'login post get request',
+            user: user,
+            token: token 
+        })
+        return token
+        
         
     }
 
@@ -28,17 +34,17 @@ export class AuthController {
     @HttpCode(201)
     async register(@Body() registerUser: any){
         logger.info('register post get request')
-        // const user = await this.userService.findByEmail(registerUser.email)
-        // if(user) {
-        //     logger.warn(`user with this email ${registerUser.email} already registered`)
-        //     throw new BadRequestException("user with this email already exist")
-        // } else {
-        //     logger.info({
-        //         msg: "user successful register",
-        //         data: registerUser,
-        //     })
-        //     return this.userService.register(registerUser)
-        // }
-        return this.userService.register(registerUser)
+        const user = await this.userService.findByEmail(registerUser.email)
+        if(user) {
+            logger.warn(`user with this email ${registerUser.email} already registered`)
+            throw new BadRequestException("user with this email already exist")
+        } else {
+            logger.info({
+                msg: "user successful register",
+                data: registerUser,
+            })
+            return this.userService.register(registerUser)
+        }
+        // return this.userService.register(registerUser)
     }
 }

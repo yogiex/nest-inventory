@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { MonitorEntity } from './entity/monitor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KomputerEntity } from './entity/komputer.entity';
+import logger from 'src/logger';
 
 @Injectable()
 export class BarangService {
@@ -24,6 +25,10 @@ export class BarangService {
         try {
             if(monitor) return monitor
         } catch (error) {
+            logger.warn({
+                msg: 'Item Not Found',
+                status: HttpStatus.NOT_FOUND
+            })
             throw new NotFoundException({
                 status: HttpStatus.NOT_FOUND,
                 error: 'Item Not Found'

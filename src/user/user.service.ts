@@ -36,6 +36,7 @@ export class UserService {
                 status: HttpStatus.NOT_FOUND,
                 error:'User with this username not found'
             })
+            
         }
     }
 

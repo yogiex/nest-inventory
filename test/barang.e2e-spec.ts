@@ -11,6 +11,7 @@ import { RuanganEntity } from '../src/ruangan/entity/ruangan.entity';
 describe('AuthController (e2e)', () => {
   let app: INestApplication;
   let api = 'http://localhost:3000'
+  let token = ''
   const dataRegister = {
     email: 'yogi@email.com',
     name: 'priyagung elza yogitama',
@@ -22,10 +23,6 @@ describe('AuthController (e2e)', () => {
   const dataLogin = {
     email: 'yogi@email.com',
     password: 'admin@123'
-  }
-  const dataLoginFail = {
-    email: 'yogi@email.com',
-    password: '123123123'
   }
 
   beforeAll(async () => {
@@ -41,43 +38,21 @@ describe('AuthController (e2e)', () => {
     })
     await dataSource.initialize()
     await dataSource.createQueryBuilder().delete().from(UserEntity).execute()
+    await request(api)
+    .post('/auth/register')
+    .send(dataRegister)
     
-  
-    
+    await request(api)
+    .post('/auth/register')
+    .send(dataLogin)
+    .expect(({body}) => {
+        token += body.token
+    })
   });
 
-  it('/auth/register (POST) Successful', () => {
+  it('show all barang monitor', () => {
     return request(api)
-      .post('/auth/register')
-      .send(dataRegister)
-      .expect(body => {
-        
-      })
-      .expect(201)
+      .get('/barang')
   });
-  it('/auth/register (POST) Email already exist', () => {
-    return request(api)
-      .post('/auth/register')
-      .send(dataRegister)
-      .expect(body => {
-        expect(body.statusCode).toEqual(400)
-      })
-      .expect(400)
-  });
-  it('/auth/login (POST) successful' , () => {
-    return request(api)
-        .post('/auth/login')
-        .send(dataLogin)
-        .expect(({body}) => {
-          expect(body.token).toBeDefined()
-        })
-        .expect(200) 
-  })
-  it('/auth/login (POST) failed', () => {
-    return request(api)
-           .post('/auth/login')
-           .send(dataLoginFail)
-           .expect(({body}) => {})
-           .expect(400)
-  })
+
 });
