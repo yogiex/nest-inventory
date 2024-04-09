@@ -4,6 +4,8 @@ import { MonitorEntity } from './entity/monitor.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KomputerEntity } from './entity/komputer.entity';
 import logger from 'src/logger';
+import { CreateMonitorDTO } from './dto/monitor.dto';
+import { CreateKomputerDRO, CreateKomputerDTO } from './dto/komputer.dto';
 
 @Injectable()
 export class BarangService {
@@ -50,8 +52,18 @@ export class BarangService {
             })
         }
     }
-    addMonitor(){}
-    addKomputer(){}
+    async addMonitor(insertMonitor: CreateMonitorDTO){
+        const monitor = await this.monitorRepository.save(insertMonitor)
+        return {
+            data:monitor,
+        }
+    }
+    async addKomputer(insertKomputer: CreateKomputerDTO){
+        const komputer = await this.komputerRepository.save(insertKomputer)
+        return {
+            data: komputer
+        }
+    }
 
     updateMonitor(){}
     updateKomputer(){}

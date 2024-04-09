@@ -15,3 +15,5 @@ export class RegisterDTO {
     @ApiProperty()
     avatar:string;
 }
+
+export class LoginDTO extends PickType(RegisterDTO,['email','password']){}

@@ -32,7 +32,7 @@ export class AuthController {
     //Dev only
     @Post('register')
     @HttpCode(201)
-    async register(@Body() registerUser: any){
+    async register(@Body() registerUser: RegisterDTO){
         logger.info('register post get request')
         const user = await this.userService.findByEmail(registerUser.email)
         if(user) {

@@ -21,5 +21,7 @@ export class KomputerEntity{
     @ManyToOne(() => BarangEntity, barang => barang.komputer, {nullable: true})
     inventory: BarangEntity | null
 
+    @CreateDateColumn()
+    created_at: Date
     
 }
