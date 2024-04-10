@@ -1,5 +1,7 @@
+import { MonitorEntity } from "src/barang/entity/monitor.entity";
 import { UserEntity } from "../../user/entity/user.entity";
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { KomputerEntity } from "src/barang/entity/komputer.entity";
 
 @Entity()
 export class RuanganEntity{
@@ -14,4 +16,10 @@ export class RuanganEntity{
 
     @ManyToOne(() => UserEntity, user => user.setting_ruang, {nullable: true})
     assign_by: UserEntity | null
+
+    @OneToOne(() => MonitorEntity, monitor => monitor.id)
+    monitor:number;
+
+    @OneToOne(() => KomputerEntity, komputer => komputer.id)
+    komputer: number;
 }
